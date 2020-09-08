@@ -29,7 +29,12 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
 
 app.get('/search', (req, res) => {
   const restaurants = restaurantList.results.filter(function (restaurant) {
-    return restaurant.name.toLowerCase().includes(req.query.keyword.toLowerCase())
+    if (restaurant.name.toLowerCase().includes(req.query.keyword.toLowerCase())) {
+      return restaurant.name.toLowerCase().includes(req.query.keyword.toLowerCase())
+    } else {
+      return restaurant.category.toLowerCase().includes(req.query.keyword.toLowerCase())
+    }
+
   })
 
 
