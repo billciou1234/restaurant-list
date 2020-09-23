@@ -31,5 +31,3 @@ db.once('open', () => {
   }
   console.log('done.')
 })
-
-  // , name: restaurantList.results[i].name, name_en: restaurantList.results[i].name_en, category: restaurantList.results[i].category, image: restaurantList.results[i].image, local: restaurantList.results[i].local, phone: restaurantList.results[i].phone, google_map: restaurantList.results[i].google_map, rating: restaurantList.results[i].rating, description: restaurantList.results[i].description

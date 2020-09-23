@@ -5,26 +5,46 @@ const port = 3000
 
 // require express-handlebars here
 const exphbs = require('express-handlebars')
-
+const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 //join restaurants list
 const restaurantList = require('./restaurant.json')
-
+const Restaurant = require('./models/restaurant')
 
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
-app.get('/', (req, res) => {
-  res.render('index', { restaurant: restaurantList.results })
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
+
+const db = mongoose.connection
+db.on('error', () => {
+  console.log('mongdb error!')
+})
+db.once('open', () => {
+  console.log('mongodb connected!')
 })
 
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurant = restaurantList.results.filter(function (restaurant) {
-    return restaurant.id === Number(req.params.restaurant_id)
-  })
-  res.render('show', { restaurant: restaurant[0] })
+//index
+app.get('/', (req, res) => {
+  // res.render('index', { restaurant: restaurantList.results })
+  Restaurant
+    .find()
+    .lean()
+    .sort({ id: 'asc' })
+    .then(restaurant => res.render('index', { restaurant: restaurant }))
+    .catch(error => console.error(error))
+})
+
+//single
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findOne({ id: id }).lean().then(restaurant => res.render('show', { restaurant: restaurant }))
+    .catch(error => console.log(error))
 })
 
 app.get('/search', (req, res) => {
@@ -36,11 +56,85 @@ app.get('/search', (req, res) => {
     }
 
   })
-
-
   res.render('index', { restaurant: restaurants, keyword: req.query.keyword })
 
 })
+
+//create page
+app.get('/new', (req, res) => {
+  let newID = 0
+  return Restaurant.findOne().sort({ _id: -1 }).then(restaurant => {
+    newID = Number(restaurant.id) + 1
+    console.log(newID)
+    return res.render('new', { newID: newID })
+  })
+    .catch(error => console.log(error))
+
+})
+//create post
+app.post('/new', (req, res) => {
+  const id = req.body.id
+  const name = req.body.name
+  const name_en = req.body.name_en
+  const category = req.body.category
+  const image = req.body.image
+  const location = req.body.location
+  const phone = req.body.phone
+  const google_map = req.body.googlemap
+  const rating = req.body.rating
+  const description = req.body.description
+  const restaurant = new Restaurant({ id, name, name_en, category, image, location, phone, google_map, rating, description })
+  return restaurant.save().then(() => res.redirect('/')).catch(error => console.log(error))
+})
+
+
+app.get('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findOne({ id: id }).lean().then(restaurant => res.render('edit', { restaurant: restaurant }))
+    .catch(error => console.log(error))
+})
+
+app.post('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  const name = req.body.name
+  const name_en = req.body.name_en
+  const category = req.body.category
+  const image = req.body.image
+  const location = req.body.location
+  const phone = req.body.phone
+  const google_map = req.body.googlemap
+  const rating = req.body.rating
+  const description = req.body.description
+
+
+  return Restaurant.findOne({ id: id })
+    .then(restaurant => {
+      restaurant.id = id
+      restaurant.name = name
+      restaurant.name_en = name_en
+      restaurant.category = category
+      restaurant.image = image
+      restaurant.location = location
+      restaurant.phone = phone
+      restaurant.google_map = google_map
+      restaurant.rating = rating
+      restaurant.description = description
+
+      return restaurant.save()
+    })
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch(error => console.log(error))
+})
+
+app.post('/restaurants/:id/delete', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findOne({ id: id })
+    .then(restaurant => restaurant.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+
 
 app.listen(port, () => {
   console.log(`Express is listening on localhost:${port}`)
