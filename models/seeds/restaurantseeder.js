@@ -12,8 +12,6 @@ db.once('open', () => {
 const Restaurant = require('../restaurant')
 const restaurantList = require('../../restaurant.json')
 
-console.log(restaurantList.results[0].name)
-
 db.once('open', () => {
   for (let i = 0; i < restaurantList.results.length; i++) {
     Restaurant.create({

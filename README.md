@@ -8,7 +8,10 @@
 
 也可以搜尋餐廳名稱及分類來找到你想要找的餐廳
 
-環境建置 Node.js 10.15.0 cmber(終端機) NVM
+新增-使用者可以自行新增餐廳、編輯餐廳及刪除餐廳
+
+
+環境建置 Node.js 10.15.0 cmber(終端機) NVM MongoDB
 
 專案安裝流程 1.建立資料夾
 
@@ -22,9 +25,27 @@
 
 [~/Projects/alpha_camp/fuckword_generator] $ npm install express express-handlebars
 
+安裝mongoose
+[~/Projects/alpha_camp/fuckword_generator] $ npm install mongoose
+
+[~/Projects/alpha_camp/fuckword_generator] $ npm install body-parser
+
 3.把下載的資料丟到專案目錄
 
-4.啟動伺服器，執行app.js 檔案
+4.匯入種子檔案
+
+在 models 找到 restaurantseeder.js 檔案
+
+執行 
+[~/Projects/alpha_camp/fuckword_generator] $ node models/seeds/restaurantseeder.js 
+匯入使用者與餐廳資料
+
+當終端機顯示
+mongodb connected!
+done.
+代表匯入成功
+
+6.啟動伺服器，執行app.js 檔案
 
 [~/Projects/alpha_camp/fuckword_generator] $ node app.js
 
