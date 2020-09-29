@@ -135,6 +135,34 @@ app.post('/restaurants/:id/edit', (req, res) => {
   const rating = req.body.rating
   const description = req.body.description
 
+  if (name.length === 0) {
+    return alert('Please keyin restaurant name!')
+  }
+  if (name_en.length === 0) {
+    return alert('Please keyin restaurant english name!')
+  }
+  if (category.length === 0) {
+    return alert('Please keyin restaurant category!')
+  }
+  if (image.length === 0) {
+    return alert('Please keyin restaurant image url!')
+  }
+  if (location.length === 0) {
+    return alert('Please keyin restaurant location!')
+  }
+  if (phone.length === 0) {
+    return alert('Please keyin restaurant phone!')
+  }
+  if (google_map.length === 0) {
+    return alert('Please keyin restaurant google map!')
+  }
+  if (rating.length === 0 || rating > 5 || rating < 0 || parseFloat(rating).toString() == 'NaN') {
+    return alert('Please keyin restaurant rating and range in 0~5!')
+  }
+  if (description.length === 0) {
+    return alert('Please keyin restaurant description!')
+  }
+
 
   return Restaurant.findOne({ id: id })
     .then(restaurant => {
