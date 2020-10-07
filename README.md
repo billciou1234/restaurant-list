@@ -30,6 +30,9 @@
 
 [~/Projects/alpha_camp/fuckword_generator] $ npm install body-parser
 
+[~/Projects/alpha_camp/fuckword_generator] $ npm install method-override
+
+
 3.把下載的資料丟到專案目錄
 
 4.匯入種子檔案

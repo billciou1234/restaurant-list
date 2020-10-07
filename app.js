@@ -16,7 +16,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(methodOverride('_method'))
 
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -123,7 +123,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   const name = req.body.name
   const name_en = req.body.name_en
@@ -183,7 +183,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findOne({ id: id })
     .then(restaurant => restaurant.remove())

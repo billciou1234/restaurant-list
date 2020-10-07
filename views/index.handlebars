@@ -40,7 +40,7 @@
             <div class="input-group-append justify-content-end">
               <a class="btn btn-success mr-1 mb-3" href="/restaurants/{{this.id}}/edit">Edit</a>
               <a class="btn btn-secondary mr-1 mb-3" href="/restaurants/{{this.id}}">Detail</a>
-              <form action="/restaurants/{{ this.id }}/delete" method="POST" style="display: inline;">
+              <form action="/restaurants/{{ this.id }}?_method=DELETE" method="POST" style="display: inline;">
                 <button class="btn btn-danger mr-1 mb-3 " type="submit">delete</button>
               </form>
             </div>
