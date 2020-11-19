@@ -3,60 +3,69 @@
 
   <div class="form-group">
     <label for="id">ID</label>
-    <input class="form-control" type="text" id="id" placeholder="id" name="id" value="{{restaurant.id}}">
+    <input class="form-control" type="text" id="id" placeholder="id" name="id" value="{{restaurant.id}}" readonly>
   </div>
 
   <div class="form-group">
     <label for="name">Name</label>
     <input class="form-control" type="text" id="name" placeholder="Restaurant Name" name="name"
       value="{{restaurant.name}}">
+    <span class="badge badge-danger">{{name_err}}</span>
   </div>
 
   <div class="form-group">
     <label for="name_en">English Name</label>
     <input class="form-control" type="text" id="name_en" placeholder="Restaurant English Name" name="name_en"
       value="{{restaurant.name_en}}">
+    <span class="badge badge-danger"></span>
   </div>
 
   <div class="form-group">
     <label for="category">Category</label>
     <input class="form-control" type="text" id="category" placeholder="Category" name="category"
       value="{{restaurant.category}}">
+    <span class="badge badge-danger"></span>
   </div>
 
   <div class="form-group">
     <label for="image">Image</label>
     <input class="form-control" type="text" id="image" placeholder="https://assets-lighthouse.s3.amazonaws.com/..."
       name="image" value="{{restaurant.image}}">
+    <span class="badge badge-danger"></span>
   </div>
 
   <div class="form-group">
     <label for="location">Location</label>
     <input class="form-control" type="text" id="location" placeholder="台北市中山區林森北路....." name="location"
       value="{{restaurant.location}}">
+    <span class="badge badge-danger"></span>
   </div>
 
   <div class="form-group">
     <label for="phone">Phone</label>
     <input class="form-control" type="text" id="phone" placeholder="02 0000 0000" name="phone"
       value="{{restaurant.phone}}">
+    <span class="badge badge-danger"></span>
   </div>
 
   <div class="form-group">
     <label for="googlemap">google_map</label>
     <input class="form-control" type="text" id="googlemap" placeholder="https://goo.gl/maps/..." name="googlemap"
       value="{{restaurant.google_map}}">
+    <span class="badge badge-danger"></span>
   </div>
 
   <div class="form-group">
     <label for="rating">Rating</label>
     <input class="form-control" type="text" id="rating" placeholder="5" name="rating" value="{{restaurant.rating}}">
+    <span class="badge badge-danger"></span>
   </div>
 
   <div class="form-group">
     <label for="description">Description</label>
     <input class="form-control" type="text" id="description" placeholder="Description" name="description"
       value="{{restaurant.description}}">
+    <span class="badge badge-danger"></span>
   </div>
 
   <div class="input-group-append justify-content-end">

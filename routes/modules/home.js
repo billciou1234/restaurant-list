@@ -12,4 +12,4 @@ router.get('/', (req, res) => {
     .catch(error => console.error(error))
 })
 
-modules.exports = router
+module.exports = router

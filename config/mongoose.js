@@ -9,4 +9,4 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-modules.exports = db
+module.exports = db

@@ -48,7 +48,7 @@ router.post('/new', (req, res) => {
   const description = req.body.description
 
   if (name.length === 0) {
-    return alert('Please keyin restaurant name!')
+    return res.jsonp({ title: 'GeeksforGeeks' })
   }
   if (name_en.length === 0) {
     return alert('Please keyin restaurant english name!')
@@ -156,4 +156,4 @@ router.delete('/restaurants/:id', (req, res) => {
 
 
 
-modules.exports = router
+module.exports = router
