@@ -11,6 +11,11 @@ router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/users/login'
 }))
+
+router.get('/register', (req, res) => {
+  res.render('register')
+})
+
 router.post('/register', (req, res) => {
   // 取得註冊表單參數
   const { name, email, password, confirmPassword } = req.body
@@ -38,7 +43,10 @@ router.post('/register', (req, res) => {
   })
 })
 
-router.get('/register', (req, res) => {
-  res.render('register')
+
+router.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/users/login')
 })
+
 module.exports = router
