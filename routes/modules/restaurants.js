@@ -6,7 +6,8 @@ const Restaurant = require('../../models/restaurant')
 //single
 router.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
-  return Restaurant.findOne({ id: id }).lean().then(restaurant => res.render('show', { restaurant: restaurant }))
+  const userId = req.user._id
+  return Restaurant.findOne({ id: id, userId: userId }).lean().then(restaurant => res.render('show', { restaurant: restaurant }))
     .catch(error => console.log(error))
 })
 
@@ -46,43 +47,44 @@ router.post('/new', (req, res) => {
   const google_map = req.body.googlemap
   const rating = req.body.rating
   const description = req.body.description
+  const userId = req.user._id
+  // if (name.length === 0) {
+  //   return res.jsonp({ title: 'GeeksforGeeks' })
+  // }
+  // if (name_en.length === 0) {
+  //   return alert('Please keyin restaurant english name!')
+  // }
+  // if (category.length === 0) {
+  //   return alert('Please keyin restaurant category!')
+  // }
+  // if (image.length === 0) {
+  //   return alert('Please keyin restaurant image url!')
+  // }
+  // if (location.length === 0) {
+  //   return alert('Please keyin restaurant location!')
+  // }
+  // if (phone.length === 0) {
+  //   return alert('Please keyin restaurant phone!')
+  // }
+  // if (google_map.length === 0) {
+  //   return alert('Please keyin restaurant google map!')
+  // }
+  // if (rating.length === 0 || rating > 5 || rating < 0 || parseFloat(rating).toString() == 'NaN') {
+  //   return alert('Please keyin restaurant rating and range in 0~5!')
+  // }
+  // if (description.length === 0) {
+  //   return alert('Please keyin restaurant description!')
+  // }
 
-  if (name.length === 0) {
-    return res.jsonp({ title: 'GeeksforGeeks' })
-  }
-  if (name_en.length === 0) {
-    return alert('Please keyin restaurant english name!')
-  }
-  if (category.length === 0) {
-    return alert('Please keyin restaurant category!')
-  }
-  if (image.length === 0) {
-    return alert('Please keyin restaurant image url!')
-  }
-  if (location.length === 0) {
-    return alert('Please keyin restaurant location!')
-  }
-  if (phone.length === 0) {
-    return alert('Please keyin restaurant phone!')
-  }
-  if (google_map.length === 0) {
-    return alert('Please keyin restaurant google map!')
-  }
-  if (rating.length === 0 || rating > 5 || rating < 0 || parseFloat(rating).toString() == 'NaN') {
-    return alert('Please keyin restaurant rating and range in 0~5!')
-  }
-  if (description.length === 0) {
-    return alert('Please keyin restaurant description!')
-  }
-
-  const restaurant = new Restaurant({ id, name, name_en, category, image, location, phone, google_map, rating, description })
+  const restaurant = new Restaurant({ id, name, name_en, category, image, location, phone, google_map, rating, description, userId })
   return restaurant.save().then(() => res.redirect('/')).catch(error => console.log(error))
 })
 
 
 router.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  return Restaurant.findOne({ id: id }).lean().then(restaurant => res.render('edit', { restaurant: restaurant }))
+  const userId = req.user._id
+  return Restaurant.findOne({ id: id, userId: userId }).lean().then(restaurant => res.render('edit', { restaurant: restaurant }))
     .catch(error => console.log(error))
 })
 
@@ -97,34 +99,34 @@ router.put('/restaurants/:id', (req, res) => {
   const google_map = req.body.googlemap
   const rating = req.body.rating
   const description = req.body.description
-
-  if (name.length === 0) {
-    return alert('Please keyin restaurant name!')
-  }
-  if (name_en.length === 0) {
-    return alert('Please keyin restaurant english name!')
-  }
-  if (category.length === 0) {
-    return alert('Please keyin restaurant category!')
-  }
-  if (image.length === 0) {
-    return alert('Please keyin restaurant image url!')
-  }
-  if (location.length === 0) {
-    return alert('Please keyin restaurant location!')
-  }
-  if (phone.length === 0) {
-    return alert('Please keyin restaurant phone!')
-  }
-  if (google_map.length === 0) {
-    return alert('Please keyin restaurant google map!')
-  }
-  if (rating.length === 0 || rating > 5 || rating < 0 || parseFloat(rating).toString() == 'NaN') {
-    return alert('Please keyin restaurant rating and range in 0~5!')
-  }
-  if (description.length === 0) {
-    return alert('Please keyin restaurant description!')
-  }
+  const userId = req.user._id
+  // if (name.length === 0) {
+  //   return alert('Please keyin restaurant name!')
+  // }
+  // if (name_en.length === 0) {
+  //   return alert('Please keyin restaurant english name!')
+  // }
+  // if (category.length === 0) {
+  //   return alert('Please keyin restaurant category!')
+  // }
+  // if (image.length === 0) {
+  //   return alert('Please keyin restaurant image url!')
+  // }
+  // if (location.length === 0) {
+  //   return alert('Please keyin restaurant location!')
+  // }
+  // if (phone.length === 0) {
+  //   return alert('Please keyin restaurant phone!')
+  // }
+  // if (google_map.length === 0) {
+  //   return alert('Please keyin restaurant google map!')
+  // }
+  // if (rating.length === 0 || rating > 5 || rating < 0 || parseFloat(rating).toString() == 'NaN') {
+  //   return alert('Please keyin restaurant rating and range in 0~5!')
+  // }
+  // if (description.length === 0) {
+  //   return alert('Please keyin restaurant description!')
+  // }
 
 
   return Restaurant.findOne({ id: id })
@@ -139,7 +141,7 @@ router.put('/restaurants/:id', (req, res) => {
       restaurant.google_map = google_map
       restaurant.rating = rating
       restaurant.description = description
-
+      restaurant.userId = userId
       return restaurant.save()
     })
     .then(() => res.redirect(`/restaurants/${id}`))
