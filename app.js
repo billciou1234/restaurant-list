@@ -1,7 +1,6 @@
 // require packages used in the project
 const express = require('express')
 const app = express()
-const port = 3000
 // require express-handlebars here
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
@@ -13,6 +12,12 @@ const flash = require('connect-flash')
 // setting template engine
 
 require('./config/mongoose')
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
+const PORT = process.env.PORT
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(express.static('public'))
