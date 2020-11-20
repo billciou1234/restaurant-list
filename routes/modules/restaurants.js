@@ -14,15 +14,15 @@ router.get('/restaurants/:id', (req, res) => {
 })
 
 router.get('/search', (req, res) => {
-  const restaurants = restaurantList.results.filter(function (restaurant) {
-    if (restaurant.name.toLowerCase().includes(req.query.keyword.toLowerCase())) {
-      return restaurant.name.toLowerCase().includes(req.query.keyword.toLowerCase())
-    } else {
-      return restaurant.category.toLowerCase().includes(req.query.keyword.toLowerCase())
-    }
-
-  })
-  res.render('index', { restaurant: restaurants, keyword: req.query.keyword })
+  const userId = req.user._id
+  Restaurant
+    .find({ userId })
+    .lean()
+    .then(restaurants => {
+      return restaurants.filter(restaurant => restaurant.name.includes(req.query.keyword) || restaurant.category.includes(req.query.keyword))
+    })
+    .then(restaurant => res.render('index', { restaurant: restaurant, keyword: req.query.keyword }))
+    .catch(error => console.error(error))
 
 })
 
