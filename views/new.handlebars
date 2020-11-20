@@ -1,68 +1,71 @@
 <form action="/new" method="POST">
-
+  {{> message}}
   {{!-- style="display: inline;" --}}
   <div class="form-group">
     <label for="id">ID</label>
-    <input class="form-control" type="text" id="id" placeholder="id" name="id" value="{{newID}}" readonly>
+    <input class="form-control" type="text" id="id" placeholder="id" name="id" value="{{newID}}{{restaurant.id}}"
+      readonly>
   </div>
 
   <div class="form-group">
     <label for="name">Name</label>
-    <input class="form-control" type="text" id="name" placeholder="Restaurant Name" name="name">
-    <span class="badge badge-danger">please key in !!</span>
+    <input class="form-control" type="text" id="name" placeholder="Restaurant Name" name="name"
+      value="{{restaurant.name}}">
+
   </div>
 
   <div class="form-group">
     <label for="name_en">English Name</label>
-    <input class="form-control" type="text" id="name_en" placeholder="Restaurant English Name" name="name_en">
-    <span class="badge badge-danger"></span>
+    <input class="form-control" type="text" id="name_en" placeholder="Restaurant English Name" name="name_en"
+      value="{{restaurant.name_en}}">
+
   </div>
 
   <div class="form-group">
     <label for="category">Category</label>
-    <input class="form-control" type="text" id="category" placeholder="Category" name="category">
-    <span class="badge badge-danger"></span>
+    <input class="form-control" type="text" id="category" placeholder="Category" name="category"
+      value="{{restaurant.category}}">
   </div>
 
   <div class="form-group">
     <label for="image">Image</label>
     <input class="form-control" type="text" id="image" placeholder="https://assets-lighthouse.s3.amazonaws.com/..."
-      name="image">
-    <span class="badge badge-danger"></span>
+      name="image" value="{{restaurant.image}}">
   </div>
 
   <div class="form-group">
     <label for="location">Location</label>
-    <input class="form-control" type="text" id="location" placeholder="台北市中山區林森北路....." name="location">
-    <span class="badge badge-danger"></span>
+    <input class="form-control" type="text" id="location" placeholder="台北市中山區林森北路....." name="location"
+      value="{{restaurant.location}}">
   </div>
 
   <div class="form-group">
     <label for="phone">Phone</label>
-    <input class="form-control" type="text" id="phone" placeholder="02 0000 0000" name="phone">
-    <span class="badge badge-danger"></span>
+    <input class="form-control" type="text" id="phone" placeholder="02 0000 0000" name="phone"
+      value="{{restaurant.phone}}">
   </div>
 
   <div class="form-group">
     <label for="googlemap">google_map</label>
-    <input class="form-control" type="text" id="googlemap" placeholder="https://goo.gl/maps/..." name="googlemap">
-    <span class="badge badge-danger"></span>
+    <input class="form-control" type="text" id="googlemap" placeholder="https://goo.gl/maps/..." name="googlemap"
+      value="{{restaurant.google_map}}">
   </div>
 
   <div class="form-group">
     <label for="rating">Rating</label>
-    <input class="form-control" type="text" id="rating" placeholder="5" name="rating">
-    <span class="badge badge-danger"></span>
+    <input class="form-control" type="text" id="rating" placeholder="5" name="rating" value="{{restaurant.rating}}">
+
   </div>
 
   <div class="form-group">
     <label for="description">Description</label>
-    <input class="form-control" type="text" id="description" placeholder="Description" name="description">
-    <span class="badge badge-danger"></span>
+    <input class="form-control" type="text" id="description" placeholder="Description" name="description"
+      value="{{restaurant.description}}">
   </div>
 
   <div class="form-group-append">
     <button class="btn btn-success" type="submit">Create</button>
+    <a class="btn btn-outline-secondary mr-2 mb-3" href="/restaurants/{{restaurant.id}}">Cancel</a>
   </div>
   </div>
 </form>

@@ -7,8 +7,10 @@ const Restaurant = require('../../models/restaurant')
 router.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
   const userId = req.user._id
+  console.log(id)
   return Restaurant.findOne({ id: id, userId: userId }).lean().then(restaurant => res.render('show', { restaurant: restaurant }))
     .catch(error => console.log(error))
+
 })
 
 router.get('/search', (req, res) => {
@@ -37,44 +39,35 @@ router.get('/new', (req, res) => {
 })
 //create post
 router.post('/new', (req, res) => {
-  const id = req.body.id
-  const name = req.body.name
-  const name_en = req.body.name_en
-  const category = req.body.category
-  const image = req.body.image
-  const location = req.body.location
-  const phone = req.body.phone
+  const { id, name, name_en, category, image, location, phone, rating, description } = req.body
   const google_map = req.body.googlemap
-  const rating = req.body.rating
-  const description = req.body.description
   const userId = req.user._id
-  // if (name.length === 0) {
-  //   return res.jsonp({ title: 'GeeksforGeeks' })
-  // }
-  // if (name_en.length === 0) {
-  //   return alert('Please keyin restaurant english name!')
-  // }
-  // if (category.length === 0) {
-  //   return alert('Please keyin restaurant category!')
-  // }
-  // if (image.length === 0) {
-  //   return alert('Please keyin restaurant image url!')
-  // }
-  // if (location.length === 0) {
-  //   return alert('Please keyin restaurant location!')
-  // }
-  // if (phone.length === 0) {
-  //   return alert('Please keyin restaurant phone!')
-  // }
-  // if (google_map.length === 0) {
-  //   return alert('Please keyin restaurant google map!')
-  // }
-  // if (rating.length === 0 || rating > 5 || rating < 0 || parseFloat(rating).toString() == 'NaN') {
-  //   return alert('Please keyin restaurant rating and range in 0~5!')
-  // }
-  // if (description.length === 0) {
-  //   return alert('Please keyin restaurant description!')
-  // }
+  const errors = []
+
+  if (!id || !name || !name_en || !category || !image || !location || !phone || !google_map || !rating || !description) {
+    errors.push({ message: '所有欄位都是必填。' })
+  }
+  if (rating > 5 || rating < 0) {
+    errors.push({ message: 'Rating range in 0~5。' })
+  }
+  if (errors.length) {
+    let errarray = {
+      id: id,
+      name: name,
+      name_en: name_en,
+      category: category,
+      image: image,
+      location: location,
+      phone: phone,
+      google_map: google_map,
+      rating: rating,
+      description: description
+    }
+    return res.render('new', {
+      errors, restaurant: errarray
+    })
+  }
+
 
   const restaurant = new Restaurant({ id, name, name_en, category, image, location, phone, google_map, rating, description, userId })
   return restaurant.save().then(() => res.redirect('/')).catch(error => console.log(error))
@@ -89,45 +82,33 @@ router.get('/restaurants/:id/edit', (req, res) => {
 })
 
 router.put('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  const name = req.body.name
-  const name_en = req.body.name_en
-  const category = req.body.category
-  const image = req.body.image
-  const location = req.body.location
-  const phone = req.body.phone
+  const { id, name, name_en, category, image, location, phone, rating, description } = req.body
   const google_map = req.body.googlemap
-  const rating = req.body.rating
-  const description = req.body.description
   const userId = req.user._id
-  // if (name.length === 0) {
-  //   return alert('Please keyin restaurant name!')
-  // }
-  // if (name_en.length === 0) {
-  //   return alert('Please keyin restaurant english name!')
-  // }
-  // if (category.length === 0) {
-  //   return alert('Please keyin restaurant category!')
-  // }
-  // if (image.length === 0) {
-  //   return alert('Please keyin restaurant image url!')
-  // }
-  // if (location.length === 0) {
-  //   return alert('Please keyin restaurant location!')
-  // }
-  // if (phone.length === 0) {
-  //   return alert('Please keyin restaurant phone!')
-  // }
-  // if (google_map.length === 0) {
-  //   return alert('Please keyin restaurant google map!')
-  // }
-  // if (rating.length === 0 || rating > 5 || rating < 0 || parseFloat(rating).toString() == 'NaN') {
-  //   return alert('Please keyin restaurant rating and range in 0~5!')
-  // }
-  // if (description.length === 0) {
-  //   return alert('Please keyin restaurant description!')
-  // }
-
+  const errors = []
+  if (!id || !name || !name_en || !category || !image || !location || !phone || !google_map || !rating || !description) {
+    errors.push({ message: '所有欄位都是必填。' })
+  }
+  if (rating > 5 || rating < 0) {
+    errors.push({ message: 'Rating range in 0~5。' })
+  }
+  if (errors.length) {
+    let errarray = {
+      id: id,
+      name: name,
+      name_en: name_en,
+      category: category,
+      image: image,
+      location: location,
+      phone: phone,
+      google_map: google_map,
+      rating: rating,
+      description: description
+    }
+    return res.render('edit', {
+      errors, restaurant: errarray
+    })
+  }
 
   return Restaurant.findOne({ id: id })
     .then(restaurant => {
