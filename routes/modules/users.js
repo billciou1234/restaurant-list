@@ -8,11 +8,16 @@ const bcrypt = require('bcryptjs')
 router.get('/login', (req, res) => {
   res.render('login')
 })
+
+
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/users/login',
-
+  failureFlash: true
 }))
+
+
+
 
 router.get('/register', (req, res) => {
   res.render('register')
@@ -22,7 +27,8 @@ router.post('/register', (req, res) => {
   // 取得註冊表單參數
   const { name, email, password, confirmPassword } = req.body
   const errors = []
-  if (!name || !email || !password || !confirmPassword) {
+  console.log('name is :' + name + '.')
+  if (!email || !password || !confirmPassword) {
     errors.push({ message: '所有欄位都是必填。' })
   }
   if (password !== confirmPassword) {
@@ -53,6 +59,8 @@ router.post('/register', (req, res) => {
         }))
         .then(() => res.redirect('/'))
         .catch(err => console.log(err))
+
+
     }
   })
 })
